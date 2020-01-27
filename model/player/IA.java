@@ -1,21 +1,17 @@
 package model.player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import model.minmax.MinMax;
 import model.tree.Tree;
 
-public class IA extends Player 
+public class IA implements Player 
 {
-	protected int depth;
+	protected int max;
 	protected Tree tree;
 	
-	public IA(int depth, int maxMatches) 
+	public IA(int depth, int max) 
 	{
-		super(maxMatches);
-		this.depth = depth;
-		tree = createTree(depth, maxMatches);
+		this.max = max;
+		tree = createTree(depth, max);
 	}
 	
 	protected Tree createTree(int currentDepth, int currentMatches)
@@ -40,6 +36,48 @@ public class IA extends Player
 		return tree;
 	}
 	
+	public void addDepth()
+	{
+		addDepth(tree);
+	}
+	
+	protected void addDepth(Tree tree)
+	{
+		if (tree.getChildren().isEmpty())
+		{
+			for(int i = 1; i <= 3; i++)
+			{
+				if (tree.getParent() - i >= 0)
+				{
+					tree.addChild(new Tree(tree.getParent() - i));
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
+		else
+		{
+			for(Tree child : tree.getChildren())
+			{
+				addDepth(child);
+			}	
+		}
+	}
+	
+	public void removeTrees(int matchRemoved)
+	{
+		for(Tree child : tree.getChildren())
+		{
+			if (tree.getParent() - matchRemoved == child.getParent())
+			{
+				tree = child;
+				return;
+			}
+		}
+	}
+	
 	public String getTree() {
 		return tree.toString();
 	}
@@ -47,8 +85,7 @@ public class IA extends Player
 	@Override
 	public int play() 
 	{
-		MinMax m = new MinMax(maxMatches);
-		System.out.println(m.getBestChild(tree).getParent());
-		return 0;
+		MinMax m = new MinMax(max);
+		return tree.getParent() - m.getBestChild(tree).getParent();
 	}
 }

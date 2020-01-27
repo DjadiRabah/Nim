@@ -1,13 +1,6 @@
 package model.player;
 
-public abstract class Player 
+public interface  Player 
 {
-	protected int maxMatches;
-	
-	public Player(int maxMatches)
-	{
-		this.maxMatches = maxMatches;
-	}
-	
-	public abstract int play();
+	public int play();
 }

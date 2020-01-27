@@ -1,17 +1,14 @@
+import model.NimGame;
 import model.player.IA;
-import view.Window;
 
-public class Main 
-{
+public class Main {
 
-	public static void main(String[] args) 
-	{
-		IA ia = new IA(4, 10);
-		System.out.println(ia.getTree());
-		ia.play();
-		
-		Window window = new Window();
-		window.setVisible(true);
+	public static void main(String[] args) {
+		NimGame game = new NimGame(30);
+		IA ia1 = new IA(10, game.getMax());
+		IA ia2 = new IA(2, game.getMax());
+		game.setPlayers(ia1, ia2);
+		game.loop();
 	}
 
 }
