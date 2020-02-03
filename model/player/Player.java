@@ -1,6 +1,20 @@
 package model.player;
 
-public interface  Player 
+import model.Nim;
+
+public abstract class  Player 
 {
-	public int play();
+	protected String name;
+	
+	public Player(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public abstract void play(Nim game);
 }

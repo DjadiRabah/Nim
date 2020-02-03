@@ -1,16 +1,18 @@
 package model.player;
 
+import model.Nim;
 import model.minmax.MinMax;
 import model.tree.Tree;
 
-public class IA implements Player 
+public class IA extends Player 
 {
-	protected int max;
+	protected MinMax minMax;
 	protected Tree tree;
 	
-	public IA(int depth, int max) 
+	public IA(String name, int depth, int max) 
 	{
-		this.max = max;
+		super(name);
+		minMax = new MinMax(max);
 		tree = createTree(depth, max);
 	}
 	
@@ -66,11 +68,11 @@ public class IA implements Player
 		}
 	}
 	
-	public void removeTrees(int matchRemoved)
+	public void removeTrees(int currentMatches)
 	{
 		for(Tree child : tree.getChildren())
 		{
-			if (tree.getParent() - matchRemoved == child.getParent())
+			if (child.getParent() == currentMatches)
 			{
 				tree = child;
 				return;
@@ -83,9 +85,17 @@ public class IA implements Player
 	}
 
 	@Override
-	public int play() 
+	public void play(Nim game) 
 	{
-		MinMax m = new MinMax(max);
-		return tree.getParent() - m.getBestChild(tree).getParent();
-	}
+
+		if (tree.getParent() != game.getCurrentMatches())
+		{
+			removeTrees(game.getCurrentMatches());
+			addDepth();
+		}
+		int matches = tree.getParent() - minMax.getBestChild(tree).getParent();
+		game.play(this, matches);
+		removeTrees(game.getCurrentMatches());
+		addDepth();
+		}
 }

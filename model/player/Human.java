@@ -1,13 +1,19 @@
 package model.player;
 
-public class Human implements Player 
+import model.Nim;
+
+public class Human extends Player 
 {
-	public Human(int maxMatchs) 
+	public Human(String name) 
 	{
+		super(name);
 	}
 
 	@Override
-	public int play() {
-		return 0;
+	public void play(Nim game) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
 }

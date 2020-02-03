@@ -1,19 +1,25 @@
 package view;
 
-import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
-import view.menu.GameMenu;
-import view.menu.MainMenu;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import model.Nim;
 
 public class Window extends JFrame {
 
-	public Window() 
+	public Window(Nim game, JPanel north, JPanel center, JPanel south) 
 	{
 		setTitle("Nim");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1920,1200);
-		add(new GameMenu(8));
+		setSize(400,400);
+		add(center, BorderLayout.CENTER);
+		add(north, BorderLayout.NORTH);
 		
+		add(south, BorderLayout.SOUTH);
+
 	}
 
 }
